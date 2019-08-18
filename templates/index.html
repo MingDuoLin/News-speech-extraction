@@ -1,0 +1,83 @@
+{% extends "layout.html" %}
+
+{% block main %}
+    <section class="slice sct-color-1">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="p-t-10"><span class="font-weight-500">Please input news...</span></h4>
+                    <div class="m-b-20">
+                        <textarea class="form-control m-b-12" rows="10"></textarea>
+                        <button class="btn btn-styled btn-block btn-base-4 btn-circle mt-4"
+                                onclick="submit($(this))"><span class="">Submit</span>
+                        </button>
+                    </div>
+            </div>
+        </div>
+        <div class="row">
+            <table class="table" id="my_table">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Speaker</th>
+                    <th scope="col">Said</th>
+                    <th scope="col">Content</th>
+                </tr>
+                </thead>
+                <tbody id="tbody">
+                {% for item in result %}
+                    <tr>
+                        <th scope="row">{{ loop.index }}</th>
+                        <td>{{ item[0] }}</td>
+                        <td>{{ item[1] }}</td>
+                        <td>{{ item[2] }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </section>
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //
+        });
+
+        function submit(btn) {
+            if (btn.is(".doing")) {
+                return;
+            }
+            var con = window.confirm("Confirm Submission？");
+            if (!con) {
+                return false;
+            }
+
+            btn.addClass("doing");
+            var method = btn.is("input") ? "val" : "text";
+            var oldLabel = btn[method]();
+            btn[method](oldLabel + "...");
+
+            $.post("/content", {
+                "content": btn.prev("textarea").val()
+            }, function (result) {
+                if (result.success) {
+                    showSuccess(result.message);
+                    var ele = document.getElementById('tbody');
+                    var text = "";
+                    for (i = 0; i < result.data.length; i++) {
+                        text += '<tr><th scope="row">' + i + '</th><td>' + result.data[i][0] +
+                            '</td><td>' + result.data[i][1] + '</td><td>' + result.data[i][2] + '</td></tr>'
+                    }
+                    ele.innerHTML = text;
+                } else {
+                    showError(result.message)
+                }
+                btn.removeClass("doing");
+                btn[method](oldLabel);
+            }, 'json');
+        }
+    </script>
+{% endblock %}
