@@ -70,9 +70,9 @@ app.py：启动程序
 
 ### 测试
 
-![1568884906219](.\static\images\AutoExtraction.png)
+![image](https://github.com/MingDuoLin/News-speech-extraction/blob/master/static/images/AutoExtraction.png)
 
-![1568884906219](.\static\images\result.png)
+![image](https://github.com/MingDuoLin/News-speech-extraction/blob/master/static/images/result.png)
 
 ### 测试与问题
 
