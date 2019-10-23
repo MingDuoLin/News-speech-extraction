@@ -2,41 +2,129 @@
 
 {% block main %}
     <section class="slice sct-color-1">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <h4 class="p-t-10"><span class="font-weight-500">Please input news...</span></h4>
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-title section-title--style-1 text-center mb-2">
+                        <h3 class="section-title-inner heading-2 strong-500 text-capitalize">
+                            Input news
+                        </h3>
+                        <span class="section-title-delimiter clearfix d-none"></span>
+                    </div>
+
+                    <span class="clearfix"></span>
+
+                    <div class="fluid-paragraph fluid-paragraph-sm text-center">
+                        <p class="text-lg c-gray-light">Start building fast, beautiful and easy extraction in no time using our website.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
                     <div class="m-b-20">
                         <textarea class="form-control m-b-12" rows="10"></textarea>
                         <button class="btn btn-styled btn-block btn-base-4 btn-circle mt-4"
                                 onclick="submit($(this))"><span class="">Submit</span>
                         </button>
                     </div>
+                </div>
+            </div>
+            <div class="row">
+                <table class="table" id="my_table">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Speaker</th>
+                        <th scope="col">Said</th>
+                        <th scope="col">Content</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tbody">
+                    {% for item in result %}
+                        <tr>
+                            <th scope="row">{{ loop.index }}</th>
+                            <td>{{ item[0] }}</td>
+                            <td>{{ item[1] }}</td>
+                            <td>{{ item[2] }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
-        <div class="row">
-            <table class="table" id="my_table">
-                <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Speaker</th>
-                    <th scope="col">Said</th>
-                    <th scope="col">Content</th>
-                </tr>
-                </thead>
-                <tbody id="tbody">
-                {% for item in result %}
-                    <tr>
-                        <th scope="row">{{ loop.index }}</th>
-                        <td>{{ item[0] }}</td>
-                        <td>{{ item[1] }}</td>
-                        <td>{{ item[2] }}</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+    </section>
+    <section class="slice-xl has-bg-cover bg-size-cover sct-color-1"
+             style="background-image: url({{ base_url() }}/images/img-42.jpg);">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h2 class="heading heading-xl c-white strong-600 text-uppercase line-height-1_2">
+                        Auto<br>
+                        Summarize
+                    </h2>
+                    <div class="">
+                        <p class="lead c-white mt-4">
+                            Now it's easy to generate your online summarize by typing your content by our website
+                        </p>
+
+                        <div class="btn-container mt-5">
+                            <a href="#summarize_result" class="btn btn-styled btn-white btn-circle strong-600">Learn
+                                more</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
+
+    <section class="slice sct-color-1">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-title section-title--style-1 text-center mb-2">
+                        <h3 class="section-title-inner heading-2 strong-500 text-capitalize">
+                            Main features
+                        </h3>
+                        <span class="section-title-delimiter clearfix d-none"></span>
+                    </div>
+
+                    <span class="clearfix"></span>
+
+                    <div class="fluid-paragraph fluid-paragraph-sm text-center">
+                        <p class="text-lg c-gray-light">Start building fast, beautiful and easy summarize in no time
+                            using our website.</p>
+                    </div>
+                </div>
+            </div>
+
+            <span class="space-xs-lg"></span>
+
+            <div class="row-wrapper">
+                <div class="row cols-xs-space cols-sm-space cols-md-space">
+                    <div class="col-lg-6">
+                        <div class="m-b-20">
+                            <textarea class="form-control m-b-12" rows="10"></textarea>
+                            <button class="btn btn-styled btn-block btn-base-4 btn-circle mt-4"
+                                    onclick="submit_summarize($(this))"><span class="">Submit</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="feature feature--boxed-border active">
+                            <div class="icon-block icon-block--style-1-v2">
+
+                                <h3 class="heading heading-5 strong-600">Clean and summarized result</h3>
+                                <div id="summarize_result"><p>
+
+                                </p></div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 {% endblock %}
 
@@ -71,6 +159,36 @@
                         text += '<tr><th scope="row">' + i + '</th><td>' + result.data[i][0] +
                             '</td><td>' + result.data[i][1] + '</td><td>' + result.data[i][2] + '</td></tr>'
                     }
+                    ele.innerHTML = text;
+                } else {
+                    showError(result.message)
+                }
+                btn.removeClass("doing");
+                btn[method](oldLabel);
+            }, 'json');
+        }
+
+        function submit_summarize(btn) {
+            if (btn.is(".doing")) {
+                return;
+            }
+            var con = window.confirm("Confirm Submission？");
+            if (!con) {
+                return false;
+            }
+
+            btn.addClass("doing");
+            var method = btn.is("input") ? "val" : "text";
+            var oldLabel = btn[method]();
+            btn[method](oldLabel + "...");
+
+            $.post("/summarize", {
+                "content": btn.prev("textarea").val()
+            }, function (result) {
+                if (result.success) {
+                    showSuccess(result.message);
+                    var ele = document.getElementById('summarize_result');
+                    var text = "<p>" + result.data + "</p>";
                     ele.innerHTML = text;
                 } else {
                     showError(result.message)
