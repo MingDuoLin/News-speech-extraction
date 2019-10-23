@@ -67,12 +67,18 @@ app.py：启动程序
 ### Web部署
 
 1. Flask + Boostrap + Html 搭建 web server
+2. nginx 反向代理 、后台运行 nohup python -u app.py > gunicorn.log 2>&1 &
 
 ### 测试
 
-![image](https://github.com/MingDuoLin/News-speech-extraction/blob/master/static/images/AutoExtraction.png)
+**测试用例**：
 
-![image](https://github.com/MingDuoLin/News-speech-extraction/blob/master/static/images/result.png)
+```
+对此，特朗普2小时后也在推特上反击：“告诉贾斯廷⋅特鲁多总理和马克龙总统，他们正在收取美国巨额关税，并制造非货币贸易壁垒。欧盟与美国的贸易顺差为1510亿美元，加拿大影响我们农民的生计。”
+5月31日，特朗普宣布将对加拿大、墨西哥与欧盟开征钢铝进口关税，加拿大、墨西哥随即采取报复性措施，欧盟的反击也箭在弦上，贸易战的恐慌再度引发关注。美国此举让众盟友怨声载道，六国财长纷纷发声要在G7峰会上向特朗普“摊牌”。
+```
+
+![image](https://github.com/MingDuoLin/News-speech-extraction/blob/master/static/images/AutoExtraction.png)
 
 ### 测试与问题
 
